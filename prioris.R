@@ -1,4 +1,8 @@
 
+# dataset
+data(mtcars)
+
+
 ########################### rsrtanarm #################################
 library(rstanarm)
 
