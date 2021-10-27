@@ -36,14 +36,17 @@ plot(m2)
 
 
 ####################### reg binomial #########################
-
 m3 <- brm(am ~ hp + cyl + carb, data = mtcars, family = bernoulli)
 summary(m3)
 plot(m3)
 
 
 
-
+##################### reg binomial (mixed) ######################
+m4 <- brm(am ~ hp + cyl + carb + (1|am), data = mtcars, family = bernoulli)
+summary(m4)
+plot(m4)
+pairs(m4)
 
 
 
