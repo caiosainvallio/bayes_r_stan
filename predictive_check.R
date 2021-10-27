@@ -91,12 +91,25 @@ m1_posterior <- brm(
     set_prior("normal(20.09062, 15.06737)", class = "b"),
     set_prior("exponential(0.1659215)", class = "sigma")
   ),
-  sample_prior = "only"
+  sample_prior = "yes"
 )
 m1_posterior
 plot(m1_posterior)
-pp_check(m1_posterior)
+pp_check(m1_posterior, ndraws = 50)
+pp_check(m1_posterior, type = "ecdf_overlay", ndraws = 50)
 
+?hypothesis() # -----------------------------------
+hypothesis(m1_posterior, "Intercept > 0")
+plot(hypothesis(m1_posterior, "Intercept > 0"))
+
+hypothesis(m1_posterior, "wt = 0")
+plot(hypothesis(m1_posterior, "wt = 0"))
+
+hypothesis(m1_posterior, "hp = 0")
+plot(hypothesis(m1_posterior, "hp = 0"))
+
+hypothesis(m1_posterior, "sigma = 0", class = NULL)
+plot(hypothesis(m1_posterior, "sigma = 0", class = NULL))
 
 
 
@@ -110,8 +123,7 @@ m2_posterior <- stan_glm(
   data = mtcars,
   prior_intercept = normal(mean(y), 2.5 * sd(y)),
   prior = student_t(3, 0, 1),
-  prior_aux = exponential(.1),
-  prior_PD = TRUE
+  prior_aux = exponential(.1)
 )
 m2_posterior
 plot(m2_posterior)
