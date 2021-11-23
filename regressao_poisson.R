@@ -18,6 +18,9 @@
 # senior: dummy para indicar se ha apenas idosos no apto
 # exposure2: numero de dias de exposicao a detetizacao
 
+
+# rstanarm --------------------------------------------------------------------
+
 library(rstanarm)
 library(ggplot2)
 library(dplyr)
@@ -49,5 +52,31 @@ m1 <- stan_glm(
 
 summary(m1)
 pp_check(m1) # esta errando muito, ele nao consegue estimar o zero
+
+
+# ctrl + shift + F10 = restar session
+
+
+# brms --------------------------------------------------------------------
+library(brms)
+library(ggplot2)
+
+roaches <- rstanarm::roaches
+
+m2 <- brm(
+  y ~ roach1 + treatment + senior,
+  data = roaches,
+  family = poisson(link="log"),
+  prior = c(
+    set_prior("normal(0, 0.1)", coef = "roach1"),
+    set_prior("normal(0, 5)"),
+    set_prior("normal(0, 2.5)", class = "Intercept")
+  )
+)
+
+summary(m2)
+pp_check(m2, ndraws = 50) + xlim(0, 200)
+
+
 
 
