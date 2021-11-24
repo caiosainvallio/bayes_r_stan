@@ -54,7 +54,7 @@ summary(m1)
 pp_check(m1) # esta errando muito, ele nao consegue estimar o zero
 
 
-# ctrl + shift + F10 = restar session
+# ctrl + shift + F10 = restart session
 
 
 # brms --------------------------------------------------------------------
