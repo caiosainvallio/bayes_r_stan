@@ -2,11 +2,11 @@
 #                      Regressao Robusta                                   #
 ############################################################################
 
-# usadas para:
-## outliers
+# Usadas para:
+## Outliers
 ## Super(sub)dispersao - zero inflated
 
-# exemplos
+# Exemplos
 ## t-Student <- Normal
 ## Beta_binomial <- Binomial
 ## t-Student <- Binomial
