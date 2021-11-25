@@ -133,3 +133,30 @@ brm(
   ),
   stanvars = stanvar_inv_robit
 )
+
+
+
+
+
+
+# Binomial-Negativa ao inves de Poisson ----------------------------------------
+
+# usada para superdispersao
+
+# y ~ Binomial_Negativa(exp(Alpha + X*Beta), Phi)
+# Phi ~ Gamma(0.01, 0.01) # cauda longa e positiva
+# Alpha ~ Normal(Mu_Alpha, Sigma_Alpha)
+# Beta ~ Normal(Mu_Beta, Sigma_Beta)
+
+brm(
+  family = negbinomial(link = "log")
+)
+
+
+
+
+
+
+
+
+
