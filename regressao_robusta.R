@@ -103,8 +103,8 @@ brms(
 
 
 # y_i = {
-#   0 se z_i < 0
-#   1 se z_i > 0
+#   0, se z_i < 0
+#   1, se z_i > 0
 # }
 # z_i = X*Beta + e_i
 # e_i ~ Student(Nu, 0, sqrt(Nu - 2 / Nu))
@@ -151,6 +151,36 @@ brm(
 brm(
   family = negbinomial(link = "log")
 )
+
+
+
+
+# Mistura de Binomial-Negativa ao inves de Poisson -----------------------------
+
+# para superdispersao muito acentuada, em especial zero-inflated
+# onde usa-se um avariavel `S` dummy que indica de a observacao `i`
+# tem o valor igal a zero ou nao. A variavel S pode ser modelada usando
+# regressao logistica
+
+
+# y = {
+#   = 0,                                           se S_i = 0
+#   ~ Binomial_Negativa(exp(Alpha + X*Beta), Phi), se S_i = 1
+# }
+# Phi ~ Gamma(0.01, 0.01) # cauda longa e positiva
+# P(S_i=1) = Logistica/Probit(X*Gamma)
+# Gamma ~ Beta(1, 1) # distribuicao uniforme entre 0 e 1
+
+
+brms(
+  family = zero_inflated_negbinomial(link = "log"),
+  prior = c(
+    prior(gamma(0.01, 0.01), class = shape),
+    prior(beta(1, 1), class = zi)
+  )
+)
+
+
 
 
 
