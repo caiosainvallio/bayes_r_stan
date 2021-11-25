@@ -60,6 +60,7 @@ pp_check(m1) # esta errando muito, ele nao consegue estimar o zero
 # brms --------------------------------------------------------------------
 library(brms)
 library(ggplot2)
+options(mc.cores = parallel::detectCores())
 
 roaches <- rstanarm::roaches
 
