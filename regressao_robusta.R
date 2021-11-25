@@ -76,13 +76,12 @@ beta_binomial2 <- custom_family("beta_binomial2",
                                 type = "int",
                                 vars = "vint1[n]")
 stan_funs <- "
-  real beta_binomial2_lpmf(int y, real mu, real phi, int T) {
-    return beta_binomial_lpmf(y | T, mu * phi, (1 - mu) * phi);
-  }
-  int beta_binomial2_rgn(real mu, real phi, int T) {
-    return beta_binomial_rng(T, mu * phi, (1 - mu) * phi);
-  }
-"
+real beta_binomial2_lpmf(int y, real mu, real phi, int T) {
+  return beta_binomial_lpmf(y | T, mu * phi, (1 - mu) * phi);
+}
+int beta_binomial2_rgn(real mu, real phi, int T) {
+  return beta_binomial_rng(T, mu * phi, (1 - mu) * phi);
+}"
 stanvars <- stanvar(scode = stan_funs, block = "functions")
 
 brms(
@@ -96,5 +95,41 @@ brms(
 
 
 
+# t-Student ao inves de Binomial -----------------------------------------------
+
+# modelo Robit
+# Tornar a regressao logidtica mais robusta usando dados latentes `z` e usar
+# uma distribuicao t-Student para os erros latentes `e`.
 
 
+# y_i = {
+#   0 se z_i < 0
+#   1 se z_i > 0
+# }
+# z_i = X*Beta + e_i
+# e_i ~ Student(Nu, 0, sqrt(Nu - 2 / Nu))
+# Nu ~ Gamma(2, 0.1) \in [2, \inf)
+
+stan_inv_robit <- "
+real inv_robit(real y, real nu) {
+  return(student_t_cdf(y, nu, 0, sqrt((nu - 2) / nu)));
+}"
+stanvar_inv_robit <- stanvar(scode = stan_inv_robit, block = "functions")
+robit_formula <- bf(
+  y_c | trials(1) ~ inv_robit(eta, nu),
+  nlf(eta ~ b0 + b1 * x),
+  b0 + b1 ~ 1,
+  nu ~ 1,
+  nl = TRUE
+)
+
+brm(
+  formula = robit_formula,
+  family = binomial("identity"),
+  prior = c(
+    prior(normal(0, 1), npar = b0),
+    prior(normal(0, 1), npar = b1),
+    prior(gamma(2, 0.1), nlpar = nu, lb = 2)
+  ),
+  stanvars = stanvar_inv_robit
+)
