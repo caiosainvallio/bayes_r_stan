@@ -1,11 +1,11 @@
 
-# Worklow de modelos Bayesianos
+# Workflow de modelos Bayesianos
 
 #               Prior           Posterior
 #             Predictive       Predictive
 #               check            check
 #            <--------->      <--------->
-# especificacao       Elicita??o        Infer?ncia
+# especificacao       Elicitacao        Inferencia
 #   do modelo         das Prioris       Posterior
 
 
