@@ -137,7 +137,25 @@ plot(m4)
 
 
 
+## Random-intercept-slope ------------------------------------------------------
 
+m5 <- brm(
+  y ~ (1 + background | cheese),
+  data = cheese,
+  family = gaussian(link="identity"),
+  prior = c(
+    # set_prior("normal(0, 1)", class="b"),
+    set_prior("student_t(3, 72, 13)", class="Intercept"),
+    set_prior("exponential(0.05)", class="sigma"),
+    set_prior("student_t(3, 0, 13)", class="sd"),
+    set_prior("lkj(1)", class="cor")
+  )
+)
+
+summary(m5)
+pp_check(m5, ndraws = 50)# + xlim(0, 150)
+ranef(m5)
+plot(m5)
 
 
 
