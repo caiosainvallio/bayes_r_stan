@@ -55,7 +55,7 @@ cheese$y %>% mad
 1/cheese$y %>% median
 
 
-
+## Random-intyercept -----------------------------------------------------------
 
 m1 <- brm(
   y ~ (1 | cheese) + background,
@@ -73,8 +73,6 @@ summary(m1)
 pp_check(m1, ndraws = 50) + xlim(0, 150)
 ranef(m1)
 plot(m1)
-
-
 
 
 
@@ -115,6 +113,34 @@ summary(m3)
 pp_check(m3, ndraws = 50)# + xlim(0, 150)
 ranef(m3)
 plot(m3)
+
+
+
+
+## Random-Slope ----------------------------------------------------------------
+
+m4 <- brm(
+  y ~ (0 + background | cheese),
+  data = cheese,
+  family = gaussian(link="identity"),
+  prior = c(
+    set_prior("student_t(3, 72, 13)", class="Intercept"),
+    set_prior("exponential(0.05)", class="sigma"),
+    set_prior("lkj(1)", class="cor")
+  )
+)
+
+summary(m4)
+pp_check(m4, ndraws = 50)# + xlim(0, 150)
+ranef(m4)
+plot(m4)
+
+
+
+
+
+
+
 
 
 
