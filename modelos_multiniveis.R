@@ -70,8 +70,8 @@ m1 <- brm(
 )
 
 summary(m1)
-pp_check(m1, ndraws = 50) + xlim(0, 200)
-
+pp_check(m1, ndraws = 50) + xlim(0, 150)
+ranef(m1)
 
 
 
