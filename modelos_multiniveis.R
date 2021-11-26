@@ -72,11 +72,29 @@ m1 <- brm(
 summary(m1)
 pp_check(m1, ndraws = 50) + xlim(0, 150)
 ranef(m1)
+plot(m1)
 
 
 
 
 
+
+m2 <- brm(
+  y ~ (1 | rater) + background,
+  data = cheese,
+  family = gaussian(link="identity"),
+  prior = c(
+    set_prior("normal(0, 1)", class="b"),
+    set_prior("student_t(3, 72, 13)", class="Intercept"),
+    set_prior("exponential(0.05)", class="sigma"),
+    set_prior("student_t(3, 0, 13)", class="sd", group="rater")
+  )
+)
+
+summary(m2)
+pp_check(m2, ndraws = 50) + xlim(0, 150)
+ranef(m2)
+plot(m2)
 
 
 
