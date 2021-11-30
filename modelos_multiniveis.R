@@ -74,6 +74,8 @@ pp_check(m1, ndraws = 50) + xlim(0, 150)
 ranef(m1)
 plot(m1)
 
+pairs(m1)
+
 
 
 
