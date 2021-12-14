@@ -62,14 +62,19 @@ summary(m3)
 # comparar modelos
 
 loo_m1 <- loo(m1)
-loo_m2 <- loo(m3)
+loo_m2 <- loo(m2)
 loo_m3 <- loo(m3)
 
 
+loo_compare(loo_m1, loo_m2, loo_m3)
 
 
+#   elpd_diff se_diff 
+# m2      0.0       0.0
+# m3     -0.6       0.5
+# m1 -30727.3    3935.5
 
-
+# o standard error 
 
 
 
