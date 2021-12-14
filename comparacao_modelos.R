@@ -19,6 +19,7 @@ options(mc.cores = parallel::detectCores())
 # dataset
 roaches <- rstanarm::roaches
 
+# ajustar modelos
 m1 <- brm(y ~ roach1 + treatment + senior,
           data = roaches,
           family = poisson,
@@ -56,3 +57,20 @@ m3 <- brm(y ~ roach1 + treatment + senior,
             set_prior("beta(1, 1)", class = "zi")
           ))
 summary(m3)
+
+
+# comparar modelos
+
+loo_m1 <- loo(m1)
+loo_m2 <- loo(m3)
+loo_m3 <- loo(m3)
+
+
+
+
+
+
+
+
+
+
