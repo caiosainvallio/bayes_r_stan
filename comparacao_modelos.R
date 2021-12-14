@@ -2,5 +2,5 @@
 #                      comparacao de modelos                               #
 ############################################################################
 
-
+# elpd = expected log pointwise predictive density
 
